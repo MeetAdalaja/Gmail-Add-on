@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MailGenie AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex justify-center items-center min-h-screen bg-gray-100 text-gray-900 transition-all duration-300" id="app">
+
+    <div class="w-[50vw] bg-white shadow-lg rounded-lg p-6 transition-all duration-300" id="container">
+        <h1 class="text-2xl font-semibold text-center mb-4">MailGenie AI</h1>
+        
+        <div class="space-y-4">
+            <!-- Scenario Selection -->
+            <div>
+                <label class="font-medium">Scenario Selection/Others:</label>
+                <select id="scenarioSelect" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 dark:text-white" onchange="toggleCustomScenario()">
+                    <option value="Job Application">Job Application</option>
+                    <option value="Deadline Extension">Deadline Extension Request</option>
+                    <option value="Meeting Rescheduled">Meeting Rescheduled</option>
+                    <option value="Invitation">Invitation</option>
+                    <option value="Announcement">Announcement</option>
+                    <option value="Complaint">Complaint or Issue Report</option>
+                    <option value="Apology">Apology Emails</option>
+                    <option value="Others">Others</option>
+                </select>
+                <input type="text" id="customScenario" placeholder="Enter custom scenario..." 
+                    class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-300 mt-2 hidden">
+            </div>
+
+            <div>
+                <label class="font-medium">Details about recipient:</label>
+                <input type="text" placeholder="Enter recipient details..." 
+                    class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-300">
+            </div>
+
+            <div>
+                <label class="font-medium">Additional Info:</label>
+                <input type="text" placeholder="Enter additional info..." 
+                    class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-300">
+            </div>
+
+            <div>
+                <label class="font-medium">Style:</label>
+                <select id="scenarioSelect" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 dark:text-white" onchange="toggleCustomScenario()">
+                    <option value="Job Application">Normal</option>
+                    <option value="Deadline Extension">Professional</option>
+                    <option value="Meeting Rescheduled">Casual</option>
+                    <option value="Invitation">Legal</option>
+                    <option value="Announcement">Academic</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="font-medium">Tone:</label>
+                <select id="scenarioSelect" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 dark:text-white" onchange="toggleCustomScenario()">
+                    <option value="Job Application">Normal</option>
+                    <option value="Deadline Extension">Formal</option>
+                    <option value="Meeting Rescheduled">Friendly</option>
+                    <option value="Invitation">Sympathetic</option>
+                    <option value="Announcement">Urgent</option>
+                    <option value="Announcement">Polity</option>
+                    <option value="Announcement">Humorous</option>
+                    <option value="Announcement">Frustrated</option>
+                    <option value="Announcement">Persuasive</option>
+                    <option value="Announcement">Authoritative</option>
+                    <option value="Announcement">Enthusiastic</option>
+                    <option value="Announcement">Appreciative</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="font-medium">Creative Level:</label>
+                <select id="scenarioSelect" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 dark:text-white" onchange="toggleCustomScenario()">
+                    <option value="Job Application">Straigh Forward</option>
+                    <option value="Deadline Extension">Somewhat Creative</option>
+                    <option value="Meeting Rescheduled">Quite Creative</option>
+                    <option value="Invitation">Super Creative</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="font-medium">Choose Language:</label>
+                <input type="text" placeholder="Enter language preference..." 
+                    class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-300">
+            </div>
+        </div>
+
+        <!-- Toggle Buttons -->
+        <div class="flex justify-around mt-6">
+            <!-- Emoji Toggle -->
+            <div class="flex items-center">
+                <label class="mr-2">Emoji Toggle</label>
+                <input type="checkbox" id="emojiToggle" class="hidden" onchange="toggleEmoji()">
+                <div class="w-12 h-6 bg-gray-300 rounded-full relative cursor-pointer" onclick="document.getElementById('emojiToggle').click()">
+                    <div id="emojiToggleBall" class="absolute w-6 h-6 bg-white rounded-full left-0 transition-all duration-300"></div>
+                </div>
+            </div>
+
+            <!-- Dark Mode Toggle -->
+            <div class="flex items-center">
+                <label class="mr-2">Dark Mode</label>
+                <input type="checkbox" id="darkModeToggle" class="hidden" onchange="toggleDarkMode()">
+                <div class="w-12 h-6 bg-gray-300 rounded-full relative cursor-pointer" onclick="document.getElementById('darkModeToggle').click()">
+                    <div id="darkModeBall" class="absolute w-6 h-6 bg-white rounded-full left-0 transition-all duration-300"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Placeholder for Emoji Section (Empty) -->
+        <div id="emojiSection" class="mt-4 hidden">
+            <!-- This can be left empty or used to show something else if needed -->
+        </div>
+        
+        <div class="flex justify-center mt-6">
+            <button class="px-4 py-2 border rounded-lg bg-blue-500 text-white transition-all duration-300 hover:bg-blue-600 hover:scale-105 focus:outline-none">
+                Generate Draft
+            </button>
+        </div>
+        
+    </div>
+
+    <script>
+        function toggleCustomScenario() {
+            let select = document.getElementById("scenarioSelect");
+            let customInput = document.getElementById("customScenario");
+
+            if (select.value === "Others") {
+                customInput.classList.remove("hidden");
+            } else {
+                customInput.classList.add("hidden");
+            }
+        }
+
+        function toggleEmoji() {
+            let emojiSection = document.getElementById("emojiSection");
+            let emojiToggle = document.getElementById("emojiToggle");
+            let toggleBall = document.getElementById("emojiToggleBall");
+
+            // Toggle visibility of emojiSection when emojiToggle is checked or unchecked
+            if (emojiToggle.checked) {
+                emojiSection.classList.remove("hidden");
+                toggleBall.classList.remove("left-0", "bg-gray-300");
+                toggleBall.classList.add("left-6", "bg-green-500");
+            } else {
+                emojiSection.classList.add("hidden");
+                toggleBall.classList.remove("left-6", "bg-green-500");
+                toggleBall.classList.add("left-0", "bg-gray-300");
+            }
+        }
+
+        function toggleDarkMode() {
+            let darkModeToggle = document.getElementById("darkModeToggle");
+            let toggleBall = document.getElementById("darkModeBall");
+            let body = document.getElementById("app");
+            let container = document.getElementById("container");
+            let inputs = document.querySelectorAll("input, select");
+
+            if (darkModeToggle.checked) {
+                toggleBall.classList.remove("left-0");
+                toggleBall.classList.add("left-6", "bg-green-500");
+
+                // Apply dark mode styles
+                body.classList.add("bg-gray-900", "text-white");
+                container.classList.add("bg-gray-800", "text-white");
+
+                // Change input field and placeholder text colors
+                inputs.forEach(input => {
+                    input.classList.add("bg-gray-700", "text-white", "placeholder-gray-300");
+                });
+
+            } else {
+                toggleBall.classList.remove("left-6", "bg-green-500");
+                toggleBall.classList.add("left-0");
+
+                // Revert back to light mode
+                body.classList.remove("bg-gray-900", "text-white");
+                container.classList.remove("bg-gray-800", "text-white");
+
+                // Reset input field and placeholder text colors
+                inputs.forEach(input => {
+                    input.classList.remove("bg-gray-700", "text-white", "placeholder-gray-300");
+                    input.classList.add("bg-gray-100", "text-gray-900", "placeholder-gray-500");
+                });
+            }
+        }
+    </script>
+
+</body>
+</html>
