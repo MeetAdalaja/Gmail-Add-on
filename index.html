@@ -7,15 +7,20 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="flex justify-center items-center min-h-screen bg-gray-100 text-gray-900 transition-all duration-300" id="app">
-
     <div class="w-[50vw] bg-white shadow-lg rounded-lg p-6 transition-all duration-300" id="container">
         <h1 class="text-2xl font-semibold text-center mb-4">MailGenie AI</h1>
         
+        <!-- Mode Toggle (Compose/Reply) -->
+        <div class="flex justify-center mb-4">
+            <button id="composeMode" class="px-4 py-2 border rounded-lg bg-blue-500 text-white transition-all duration-300 hover:bg-blue-600">Compose</button>
+            <button id="replyMode" class="px-4 py-2 border rounded-lg bg-gray-300 text-gray-900 ml-2 transition-all duration-300 hover:bg-gray-400">Reply</button>
+        </div>
+
         <div class="space-y-4">
             <!-- Scenario Selection -->
             <div>
                 <label class="font-medium">Scenario Selection/Others:</label>
-                <select id="scenarioSelect" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 dark:text-white" onchange="toggleCustomScenario()">
+                <select id="scenario" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 dark:text-white" onchange="toggleCustomScenario()">
                     <option value="Job Application">Job Application</option>
                     <option value="Deadline Extension">Deadline Extension Request</option>
                     <option value="Meeting Rescheduled">Meeting Rescheduled</option>
@@ -29,67 +34,72 @@
                     class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-300 mt-2 hidden">
             </div>
 
+            <!-- Reply Email Input (Hidden by Default) -->
+            <div id="replySection" class="hidden">
+                <label class="font-medium">Email to Reply To:</label>
+                <textarea id="replyEmail" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white" rows="4" placeholder="Paste the email you want to reply to..."></textarea>
+            </div>
+
             <div>
                 <label class="font-medium">Details about recipient:</label>
-                <input type="text" placeholder="Enter recipient details..." 
+                <input type="text" id="recipientDetails" placeholder="Enter recipient details..." 
                     class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-300">
             </div>
 
             <div>
                 <label class="font-medium">Additional Info:</label>
-                <input type="text" placeholder="Enter additional info..." 
+                <input type="text" id="additionalInfo" placeholder="Enter additional info..." 
                     class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-300">
             </div>
 
             <div>
                 <label class="font-medium">Style:</label>
-                <select id="scenarioSelect" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 dark:text-white" onchange="toggleCustomScenario()">
-                    <option value="Job Application">Normal</option>
-                    <option value="Deadline Extension">Professional</option>
-                    <option value="Meeting Rescheduled">Casual</option>
-                    <option value="Invitation">Legal</option>
-                    <option value="Announcement">Academic</option>
+                <select id="style" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 dark:text-white">
+                    <option value="Normal">Normal</option>
+                    <option value="Professional">Professional</option>
+                    <option value="Casual">Casual</option>
+                    <option value="Legal">Legal</option>
+                    <option value="Academic">Academic</option>
                 </select>
             </div>
 
             <div>
                 <label class="font-medium">Tone:</label>
-                <select id="scenarioSelect" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 dark:text-white" onchange="toggleCustomScenario()">
-                    <option value="Job Application">Normal</option>
-                    <option value="Deadline Extension">Formal</option>
-                    <option value="Meeting Rescheduled">Friendly</option>
-                    <option value="Invitation">Sympathetic</option>
-                    <option value="Announcement">Urgent</option>
-                    <option value="Announcement">Polity</option>
-                    <option value="Announcement">Humorous</option>
-                    <option value="Announcement">Frustrated</option>
-                    <option value="Announcement">Persuasive</option>
-                    <option value="Announcement">Authoritative</option>
-                    <option value="Announcement">Enthusiastic</option>
-                    <option value="Announcement">Appreciative</option>
+                <select id="tone" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 dark:text-white">
+                    <option value="Normal">Normal</option>
+                    <option value="Formal">Formal</option>
+                    <option value="Friendly">Friendly</option>
+                    <option value="Sympathetic">Sympathetic</option>
+                    <option value="Urgent">Urgent</option>
+                    <option value="Polite">Polite</option>
+                    <option value="Humorous">Humorous</option>
+                    <option value="Frustrated">Frustrated</option>
+                    <option value="Persuasive">Persuasive</option>
+                    <option value="Authoritative">Authoritative</option>
+                    <option value="Enthusiastic">Enthusiastic</option>
+                    <option value="Appreciative">Appreciative</option>
                 </select>
             </div>
 
             <div>
                 <label class="font-medium">Creative Level:</label>
-                <select id="scenarioSelect" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 dark:text-white" onchange="toggleCustomScenario()">
-                    <option value="Job Application">Straigh Forward</option>
-                    <option value="Deadline Extension">Somewhat Creative</option>
-                    <option value="Meeting Rescheduled">Quite Creative</option>
-                    <option value="Invitation">Super Creative</option>
+                <select id="creativityLevel" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 dark:text-white">
+                    <option value="Straightforward">Straightforward</option>
+                    <option value="Somewhat Creative">Somewhat Creative</option>
+                    <option value="Quite Creative">Quite Creative</option>
+                    <option value="Super Creative">Super Creative</option>
                 </select>
             </div>
 
             <div>
                 <label class="font-medium">Choose Language:</label>
-                <input type="text" placeholder="Enter language preference..." 
+                <input type="text" id="language" placeholder="Enter language preference..." 
                     class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-300">
             </div>
         </div>
 
         <!-- Toggle Buttons -->
         <div class="flex justify-around mt-6">
-            <!-- Emoji Toggle -->
             <div class="flex items-center">
                 <label class="mr-2">Emoji Toggle</label>
                 <input type="checkbox" id="emojiToggle" class="hidden" onchange="toggleEmoji()">
@@ -98,7 +108,6 @@
                 </div>
             </div>
 
-            <!-- Dark Mode Toggle -->
             <div class="flex items-center">
                 <label class="mr-2">Dark Mode</label>
                 <input type="checkbox" id="darkModeToggle" class="hidden" onchange="toggleDarkMode()">
@@ -108,24 +117,70 @@
             </div>
         </div>
 
-        <!-- Placeholder for Emoji Section (Empty) -->
-        <div id="emojiSection" class="mt-4 hidden">
-            <!-- This can be left empty or used to show something else if needed -->
+        <!-- Output Section -->
+        <div class="mt-6">
+            <label class="font-medium">Generated Email:</label>
+            <textarea id="generatedEmail" class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white" rows="6" readonly></textarea>
         </div>
-        
-        <div class="flex justify-center mt-6">
-            <button class="px-4 py-2 border rounded-lg bg-blue-500 text-white transition-all duration-300 hover:bg-blue-600 hover:scale-105 focus:outline-none">
-                Generate Draft
+
+        <!-- Improve Draft Section -->
+        <div class="mt-4">
+            <label class="font-medium">Improve Instructions:</label>
+            <input type="text" id="improveInstructions" placeholder="e.g., Make it shorter" 
+                class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-300">
+            <button id="improveButton" class="mt-2 px-4 py-2 border rounded-lg bg-yellow-500 text-white transition-all duration-300 hover:bg-yellow-600 hover:scale-105 focus:outline-none hidden">
+                Improve Draft
             </button>
         </div>
-        
+
+        <!-- Feedback Section -->
+        <div class="mt-4">
+            <label class="font-medium">Feedback:</label>
+            <input type="text" id="feedback" placeholder="Your feedback..." 
+                class="w-full p-2 border rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-300">
+            <button id="submitFeedback" class="mt-2 px-4 py-2 border rounded-lg bg-gray-500 text-white transition-all duration-300 hover:bg-gray-600 hover:scale-105 focus:outline-none">
+                Submit Feedback
+            </button>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex justify-center mt-6 space-x-4">
+            <button id="generateButton" class="px-4 py-2 border rounded-lg bg-blue-500 text-white transition-all duration-300 hover:bg-blue-600 hover:scale-105 focus:outline-none">
+                Generate Draft
+            </button>
+            <button id="regenerateButton" class="px-4 py-2 border rounded-lg bg-green-500 text-white transition-all duration-300 hover:bg-green-600 hover:scale-105 focus:outline-none hidden">
+                Regenerate Draft
+            </button>
+        </div>
     </div>
 
     <script>
-        function toggleCustomScenario() {
-            let select = document.getElementById("scenarioSelect");
-            let customInput = document.getElementById("customScenario");
+        let mode = "compose"; // Default mode
 
+        // Mode Switching
+        document.getElementById("composeMode").addEventListener("click", () => {
+            mode = "compose";
+            document.getElementById("composeMode").classList.add("bg-blue-500", "text-white");
+            document.getElementById("composeMode").classList.remove("bg-gray-300", "text-gray-900");
+            document.getElementById("replyMode").classList.add("bg-gray-300", "text-gray-900");
+            document.getElementById("replyMode").classList.remove("bg-blue-500", "text-white");
+            document.getElementById("replySection").classList.add("hidden");
+            document.getElementById("scenario").parentElement.classList.remove("hidden");
+        });
+
+        document.getElementById("replyMode").addEventListener("click", () => {
+            mode = "reply";
+            document.getElementById("replyMode").classList.add("bg-blue-500", "text-white");
+            document.getElementById("replyMode").classList.remove("bg-gray-300", "text-gray-900");
+            document.getElementById("composeMode").classList.add("bg-gray-300", "text-gray-900");
+            document.getElementById("composeMode").classList.remove("bg-blue-500", "text-white");
+            document.getElementById("replySection").classList.remove("hidden");
+            document.getElementById("scenario").parentElement.classList.add("hidden");
+        });
+
+        function toggleCustomScenario() {
+            let select = document.getElementById("scenario");
+            let customInput = document.getElementById("customScenario");
             if (select.value === "Others") {
                 customInput.classList.remove("hidden");
             } else {
@@ -134,17 +189,12 @@
         }
 
         function toggleEmoji() {
-            let emojiSection = document.getElementById("emojiSection");
             let emojiToggle = document.getElementById("emojiToggle");
             let toggleBall = document.getElementById("emojiToggleBall");
-
-            // Toggle visibility of emojiSection when emojiToggle is checked or unchecked
             if (emojiToggle.checked) {
-                emojiSection.classList.remove("hidden");
                 toggleBall.classList.remove("left-0", "bg-gray-300");
                 toggleBall.classList.add("left-6", "bg-green-500");
             } else {
-                emojiSection.classList.add("hidden");
                 toggleBall.classList.remove("left-6", "bg-green-500");
                 toggleBall.classList.add("left-0", "bg-gray-300");
             }
@@ -155,37 +205,145 @@
             let toggleBall = document.getElementById("darkModeBall");
             let body = document.getElementById("app");
             let container = document.getElementById("container");
-            let inputs = document.querySelectorAll("input, select");
+            let inputs = document.querySelectorAll("input, select, textarea");
 
             if (darkModeToggle.checked) {
                 toggleBall.classList.remove("left-0");
                 toggleBall.classList.add("left-6", "bg-green-500");
-
-                // Apply dark mode styles
                 body.classList.add("bg-gray-900", "text-white");
                 container.classList.add("bg-gray-800", "text-white");
-
-                // Change input field and placeholder text colors
                 inputs.forEach(input => {
                     input.classList.add("bg-gray-700", "text-white", "placeholder-gray-300");
                 });
-
             } else {
                 toggleBall.classList.remove("left-6", "bg-green-500");
                 toggleBall.classList.add("left-0");
-
-                // Revert back to light mode
                 body.classList.remove("bg-gray-900", "text-white");
                 container.classList.remove("bg-gray-800", "text-white");
-
-                // Reset input field and placeholder text colors
                 inputs.forEach(input => {
                     input.classList.remove("bg-gray-700", "text-white", "placeholder-gray-300");
                     input.classList.add("bg-gray-100", "text-gray-900", "placeholder-gray-500");
                 });
             }
         }
-    </script>
 
+        // Event Listeners
+        document.getElementById("generateButton").addEventListener("click", generateEmail);
+        document.getElementById("regenerateButton").addEventListener("click", generateEmail);
+        document.getElementById("improveButton").addEventListener("click", improveEmail);
+        document.getElementById("submitFeedback").addEventListener("click", submitFeedback);
+
+        // Generate Email Draft
+        async function generateEmail() {
+            const generateButton = document.getElementById("generateButton");
+            generateButton.textContent = "Generating...";
+            generateButton.disabled = true;
+
+            // Validation
+            const recipientDetails = document.getElementById("recipientDetails").value;
+            if (!recipientDetails) {
+                alert("Please enter recipient details.");
+                generateButton.textContent = "Generate Draft";
+                generateButton.disabled = false;
+                return;
+            }
+            if (mode === "reply" && !document.getElementById("replyEmail").value) {
+                alert("Please enter the email to reply to.");
+                generateButton.textContent = "Generate Draft";
+                generateButton.disabled = false;
+                return;
+            }
+
+            const payload = {
+                mode,
+                scenario: mode === "compose" ? (document.getElementById("scenario").value === "Others" 
+                    ? document.getElementById("customScenario").value 
+                    : document.getElementById("scenario").value) : null,
+                replyEmail: mode === "reply" ? document.getElementById("replyEmail").value : null,
+                recipientDetails,
+                additionalInfo: document.getElementById("additionalInfo").value,
+                style: document.getElementById("style").value,
+                tone: document.getElementById("tone").value,
+                creativityLevel: document.getElementById("creativityLevel").value,
+                language: document.getElementById("language").value || "English",
+                useEmojis: document.getElementById("emojiToggle").checked,
+            };
+
+            try {
+                const response = await fetch("http://localhost:5000/generate-email", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
+                const data = await response.json();
+                if (data.content) {
+                    document.getElementById("generatedEmail").value = data.content;
+                    document.getElementById("regenerateButton").classList.remove("hidden");
+                    document.getElementById("improveButton").classList.remove("hidden");
+                } else {
+                    alert("Error generating email: " + data.error);
+                }
+            } catch (error) {
+                alert("Failed to connect to the server: " + error.message);
+            } finally {
+                generateButton.textContent = "Generate Draft";
+                generateButton.disabled = false;
+            }
+        }
+
+        // Improve Email Draft
+        async function improveEmail() {
+            const improveButton = document.getElementById("improveButton");
+            improveButton.textContent = "Improving...";
+            improveButton.disabled = true;
+
+            const payload = {
+                content: document.getElementById("generatedEmail").value,
+                instructions: document.getElementById("improveInstructions").value || "Improve the email",
+            };
+
+            try {
+                const response = await fetch("http://localhost:5000/improve-content", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
+                const data = await response.json();
+                if (data.content) {
+                    document.getElementById("generatedEmail").value = data.content;
+                } else {
+                    alert("Error improving email: " + data.error);
+                }
+            } catch (error) {
+                alert("Failed to improve email: " + error.message);
+            } finally {
+                improveButton.textContent = "Improve Draft";
+                improveButton.disabled = false;
+            }
+        }
+
+        // Submit Feedback
+        async function submitFeedback() {
+            const payload = {
+                content: document.getElementById("generatedEmail").value,
+                feedback: document.getElementById("feedback").value,
+            };
+
+            try {
+                const response = await fetch("http://localhost:5000/feedback", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
+                const data = await response.json();
+                if (data.message) {
+                    alert("Feedback submitted successfully!");
+                    document.getElementById("feedback").value = "";
+                }
+            } catch (error) {
+                alert("Failed to submit feedback: " + error.message);
+            }
+        }
+    </script>
 </body>
 </html>
